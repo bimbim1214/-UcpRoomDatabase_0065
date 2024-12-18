@@ -7,7 +7,10 @@ import com.example.ucp2_ujicoba.repository.LocalRepositorySpr
 import com.example.ucp2_ujicoba.repository.RepositoryBrg
 import com.example.ucp2_ujicoba.repository.RepositorySpr
 
-
+interface InterfaceContainerApp{
+    val repositoryBrg : RepositoryBrg
+    val repositorySpr : RepositorySpr
+}
 
 class ContainerApp (private val context: Context) : InterfaceContainerApp{
     override val repositoryBrg: RepositoryBrg by lazy {
