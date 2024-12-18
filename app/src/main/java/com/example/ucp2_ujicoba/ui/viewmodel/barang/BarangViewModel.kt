@@ -2,6 +2,12 @@ package com.example.ucp2_ujicoba.ui.viewmodel.barang
 
 import com.example.ucp2_ujicoba.data.entity.Barang
 
+data class BrgUIState(
+    val barangEvent: BarangEvent = BarangEvent(),
+    val isEtryValid: FormErrorState = FormErrorState(),
+    val snackbarMessage: String? = null,
+)
+
 data class FormErrorState(
     val id: String? = null,
     val nama: String? = null,
