@@ -1,6 +1,15 @@
 package com.example.ucp2_ujicoba.ui.viewmodel.barang
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.example.ucp2_ujicoba.data.entity.Barang
+import com.example.ucp2_ujicoba.repository.RepositoryBrg
+
+class BarangViewModel (private val repositoryBrg: RepositoryBrg) : ViewModel() {
+    var uiState by mutableStateOf(BrgUIState())
+}
 
 data class BrgUIState(
     val barangEvent: BarangEvent = BarangEvent(),
