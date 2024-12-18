@@ -14,3 +14,8 @@ import com.example.ucp2_ujicoba.data.entity.Suplier
 
 @Database(entities = [Barang::class], [Suplier::class], version = 1, exportSchema = false)
 abstract class TokoDatabase : RoomDatabase() {
+
+    abstract fun barangDao() : BarangDao
+    abstract fun suplierDAo() : SuplierDao
+
+
