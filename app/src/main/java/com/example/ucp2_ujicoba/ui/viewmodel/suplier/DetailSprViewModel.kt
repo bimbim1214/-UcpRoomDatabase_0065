@@ -17,6 +17,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
+data class DetailUiState(
+    val detailUiEvent: SuplierEvent = SuplierEvent(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = ""
+){
+    val isUieventEmpty: Boolean
+        get() = detailUiEvent == SuplierEvent()
+
+    val isUieventNotEmpty: Boolean
+        get() = detailUiEvent != SuplierEvent()
+}
+
 fun Suplier.toDetailUiEvent(): SuplierEvent{
     return SuplierEvent(
         id = id,
