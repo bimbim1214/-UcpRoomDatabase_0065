@@ -10,6 +10,21 @@ import com.example.ucp2_ujicoba.repository.RepositoryBrg
 import kotlinx.coroutines.launch
 
 
+    private fun validateField(): Boolean {
+        val event = uiBrgstate.barangEvent
+        val errorState = FormErrorStateBrg(
+            id = if (event.id.isNotEmpty()) null else "ID tidak boleh kosong",
+            nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
+            Deskripsi = if (event.Deskripsi.isNotEmpty()) null else "Deskripsi tidak boleh kosong",
+            Harga = if (event.Harga.isNotEmpty()) null else "Harga tidak boleh kosong",
+            Stok = if (event.Stok.isNotEmpty()) null else "Stok tidak boleh kosong",
+            NamaSuplier = if (event.NamaSuplier.isNotEmpty()) null else "NamaSuplier tidak boleh kosong",
+        )
+        uiBrgstate = uiBrgstate.copy(
+            isEntryValid = errorState
+        )
+        return errorState.isValid()
+    }
 
     fun saveDataBrg(){
         val currentEvent = uiBrgstate.barangEvent
