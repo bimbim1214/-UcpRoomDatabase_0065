@@ -11,6 +11,13 @@ import com.example.ucp2_ujicoba.ui.viewmodel.barang.BarangEvent
 import kotlinx.coroutines.launch
 
 
+
+data class SprUIState(
+    val suplierEvent: SuplierEvent = SuplierEvent(),
+    val isEntryValid: FormErrorStateSpr = FormErrorStateSpr(),
+    val snackBarMessage: String? = null,
+)
+
 data class FormErrorStateSpr(
     val id: String? = null,
     val nama: String? = null,
