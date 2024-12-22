@@ -36,6 +36,57 @@ import kotlinx.coroutines.launch
 
 
 
+@Composable
+fun InsertBrgView( // untuk menampilkan form input barang dengan snackbar
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: BarangViewModel = viewModel(factory = PenyediaViewModel.Factory) // Inisialisasi viewModel
+){
+    val uiState = viewModel.uiBrgstate // ambil UI state dari viewModel
+    val snackbarHostState = remember { SnackbarHostState() } // Snackbar state
+    val coroutineScope = rememberCoroutineScope()
+
+    // Observasi perubahan snackbarMessage
+    LaunchedEffect(uiState.snackbarMessage) {
+        uiState.snackbarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message) // Tampilkan Snackbar
+                viewModel.resertSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ){ padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            AppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Barang",
+                modifier = modifier
+            )
+            // Isi Body
+            InsertBodyBrg(
+                uiState = uiState,
+                onValueChange = { updatedEvent ->
+                    viewModel.updateState(updatedEvent) // update state di ViewModel
+                },
+                onClick = {
+                    viewModel.saveDataBrg()
+                    onNavigate()
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun InsertBodyBrg( // Menambahkan tampilan form untuk memasukkan data barang dan button simpan.
