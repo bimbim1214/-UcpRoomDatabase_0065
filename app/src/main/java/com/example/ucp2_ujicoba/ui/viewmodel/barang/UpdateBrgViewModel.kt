@@ -14,6 +14,23 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
+class UpdateBrgViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val repositoryBrg: RepositoryBrg
+): ViewModel() {
+    var updateUIState by mutableStateOf(BrgUIState())
+        private set
+    private val _id: String = checkNotNull(savedStateHandle[DestinasiUpdateBrg.ID])
+
+    init {
+        viewModelScope.launch {
+            updateUIState = repositoryBrg.getBrg(_id)
+                .filterNotNull()
+                .first()
+                .toUIStateBrg()
+        }
+    }
+
 
 fun Barang.toUIStateBrg(): BrgUIState = BrgUIState(
     barangEvent = this.toDetailUiEvent(),
