@@ -16,6 +16,41 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+class DetailSprViewModel(
+    savedStateHandle: SavedStateHandle,
+    private  val repositorySpr: RepositorySpr,
+) : ViewModel() {
+    private val _id: String = checkNotNull(savedStateHandle[DestinasiDetailBrg.ID])
+
+    val detailUiState: StateFlow<DetailUiState> = repositorySpr.getSpr(_id)
+        .filterNotNull()
+        .map {
+            DetailUiState(
+                detailUiEvent = it.toDetailUiEvent(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DetailUiState(isLoading = true))
+            delay(600)
+        }
+        .catch {
+            emit(
+                DetailUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message ?: "Terjadi kesalah"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = DetailUiState(
+                isLoading = true,
+            )
+        )
+}
 
 data class DetailUiState(
     val detailUiEvent: SuplierEvent = SuplierEvent(),
