@@ -43,6 +43,44 @@ import com.example.ucp2_ujicoba.ui.viewmodel.suplier.DetailUiState
 
 
 @Composable
+fun ItemDetailBrg(
+    modifier: Modifier = Modifier,
+    barang: Barang
+
+){
+    Card (
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+    ) {
+        Column (
+            modifier = Modifier.padding(16.dp)
+        ) {
+            ComponentDetailBrg(judul = "ID", isinya = barang.id)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailBrg(judul = "Nama", isinya = barang.nama)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailBrg(judul = "Deskripsi", isinya = barang.Deskripsi)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailBrg(judul = "Harga", isinya = barang.Harga)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailBrg(judul = "Stok", isinya = barang.Stok.toString())
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailBrg(judul = "Nama Suplier", isinya = barang.NamaSuplier)
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
+    }
+}
+
+
+@Composable
 fun ComponentDetailBrg(
     modifier: Modifier = Modifier,
     judul: String,
