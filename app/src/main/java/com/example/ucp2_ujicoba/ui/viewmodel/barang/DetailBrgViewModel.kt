@@ -18,6 +18,19 @@ import kotlinx.coroutines.launch
 
 
 
+data class DetailUIState(
+    val detailUiEvent: BarangEvent = BarangEvent(),
+    val isLoading:Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = ""
+) {
+    val isUieventEmpty: Boolean
+        get() = detailUiEvent == BarangEvent()
+
+    val isUiEventNotEmpty: Boolean
+        get() = detailUiEvent != BarangEvent()
+}
+
 fun Barang.toDetailUiEvent(): BarangEvent{
     return BarangEvent(
         id = id,
