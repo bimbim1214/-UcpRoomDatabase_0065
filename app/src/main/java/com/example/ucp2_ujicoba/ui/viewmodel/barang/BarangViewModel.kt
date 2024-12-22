@@ -9,30 +9,8 @@ import com.example.ucp2_ujicoba.data.entity.Barang
 import com.example.ucp2_ujicoba.repository.RepositoryBrg
 import kotlinx.coroutines.launch
 
-class BarangViewModel(private val repositoryBrg: RepositoryBrg) : ViewModel(){
-    var uiBrgstate by mutableStateOf(BrgUIState())
 
-    fun updateState(barangEvent: BarangEvent){
-        uiBrgstate = uiBrgstate.copy(
-            barangEvent = barangEvent,
-        )
-    }
 
-    private fun validateField(): Boolean {
-        val event = uiBrgstate.barangEvent
-        val errorState = FormErrorStateBrg(
-            id = if (event.id.isNotEmpty()) null else "ID tidak boleh kosong",
-            nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
-            Deskripsi = if (event.Deskripsi.isNotEmpty()) null else "Deskripsi tidak boleh kosong",
-            Harga = if (event.Harga.isNotEmpty()) null else "Harga tidak boleh kosong",
-            Stok = if (event.Stok.isNotEmpty()) null else "Stok tidak boleh kosong",
-            NamaSuplier = if (event.NamaSuplier.isNotEmpty()) null else "NamaSuplier tidak boleh kosong",
-        )
-        uiBrgstate = uiBrgstate.copy(
-            isEntryValid = errorState
-        )
-        return errorState.isValid()
-    }
     fun saveDataBrg(){
         val currentEvent = uiBrgstate.barangEvent
         if (validateField()) {
@@ -56,15 +34,18 @@ class BarangViewModel(private val repositoryBrg: RepositoryBrg) : ViewModel(){
             )
         }
     }
+
     fun resertSnackBarMessage(){
         uiBrgstate = uiBrgstate.copy(snackbarMessage = null)
     }
+
 }
 
 data class BrgUIState(
     val barangEvent: BarangEvent = BarangEvent(),
     val isEntryValid: FormErrorStateBrg = FormErrorStateBrg(),
     val snackbarMessage: String? = null,
+
 )
 
 data class FormErrorStateBrg(
