@@ -17,21 +17,21 @@ import java.lang.Error
 class HomeBrgViewModel(
     private val repositoryBrg: RepositoryBrg
 ) : ViewModel() {
-    val homeUIState: StateFlow<HomeUIState> = repositoryBrg.getAllBrg()
+    val homeUIState: StateFlow<HomeUIStateBrg> = repositoryBrg.getAllBrg()
         .filterNotNull()
         .map {
-            HomeUIState(
+            HomeUIStateBrg(
                 listBrg = it.toList(),
                 isLoading = false,
             )
         }
         .onStart {
-            emit(HomeUIState(isLoading = true))
+            emit(HomeUIStateBrg(isLoading = true))
             delay(900)
         }
         .catch {
             emit(
-                HomeUIState(
+                HomeUIStateBrg(
                     isLoading = false,
                     isError = true,
                     errorMessage = it.message ?: "Terjadi Kesalahan"
@@ -41,13 +41,13 @@ class HomeBrgViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = HomeUIState(
+            initialValue = HomeUIStateBrg(
                 isLoading = true,
             )
         )
 }
 
-data class HomeUIState(
+data class HomeUIStateBrg(
     val listBrg: List<Barang> = listOf(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
