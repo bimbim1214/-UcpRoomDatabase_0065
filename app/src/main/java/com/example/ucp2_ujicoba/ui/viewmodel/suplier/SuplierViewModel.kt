@@ -34,6 +34,35 @@ class SuplierViewModel (private val repositorySpr: RepositorySpr) : ViewModel() 
         return errorState.isValid()
     }
 
+    fun saveDataSpr(){
+        val currentEvent = uiState.suplierEvent
+
+        if (validateField()) {
+            viewModelScope.launch {
+                try {
+                    repositorySpr.insertSpr(currentEvent.toSuplierEntity())
+                    uiState = uiState.copy(
+                        snackBarMessage = "Data berhasil disimpan",
+                        suplierEvent = SuplierEvent(),
+                        isEntryValid = FormErrorStateSpr()
+                    )
+                }catch (e: Exception) {
+                    uiState = uiState.copy(
+                        snackBarMessage = "Data gagal disimpan"
+                    )
+                }
+            }
+        }else{
+            uiState = uiState.copy(
+                snackBarMessage = "input tidak valid, periksa lagi data anda"
+            )
+        }
+    }
+
+    fun resetSnackBarMessage(){
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 
 data class SprUIState(
     val suplierEvent: SuplierEvent = SuplierEvent(),
