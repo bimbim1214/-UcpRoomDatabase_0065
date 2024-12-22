@@ -10,6 +10,15 @@ import com.example.ucp2_ujicoba.repository.RepositorySpr
 import com.example.ucp2_ujicoba.ui.viewmodel.barang.BarangEvent
 import kotlinx.coroutines.launch
 
+class SuplierViewModel (private val repositorySpr: RepositorySpr) : ViewModel() {
+    var uiState by mutableStateOf(SprUIState())
+
+
+    fun updateState(suplierEvent: SuplierEvent){
+        uiState = uiState.copy(
+            suplierEvent = suplierEvent,
+        )
+    }
 
 
 data class SprUIState(
