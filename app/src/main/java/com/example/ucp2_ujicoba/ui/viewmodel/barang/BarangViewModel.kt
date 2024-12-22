@@ -9,6 +9,14 @@ import com.example.ucp2_ujicoba.data.entity.Barang
 import com.example.ucp2_ujicoba.repository.RepositoryBrg
 import kotlinx.coroutines.launch
 
+class BarangViewModel(private val repositoryBrg: RepositoryBrg) : ViewModel(){
+    var uiBrgstate by mutableStateOf(BrgUIState())
+
+    fun updateState(barangEvent: BarangEvent){
+        uiBrgstate = uiBrgstate.copy(
+            barangEvent = barangEvent,
+        )
+    }
 
     private fun validateField(): Boolean {
         val event = uiBrgstate.barangEvent
