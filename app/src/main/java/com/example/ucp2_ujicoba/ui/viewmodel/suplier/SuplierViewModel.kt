@@ -20,6 +20,20 @@ class SuplierViewModel (private val repositorySpr: RepositorySpr) : ViewModel() 
         )
     }
 
+    private fun validateField(): Boolean {
+        val event = uiState.suplierEvent
+        val errorState = FormErrorStateSpr(
+            id = if (event.id.isNotEmpty()) null else "id tidak boleh kosong",
+            nama = if (event.nama.isNotEmpty()) null else "nama tidak boleh kosong",
+            kontak = if (event.kontak.isNotEmpty()) null else "kkontak tidak boleh kosong",
+            alamat = if (event.alamat.isNotEmpty()) null else "alamat tidak boleh kosong",
+        )
+        uiState = uiState.copy(
+            isEntryValid = errorState
+        )
+        return errorState.isValid()
+    }
+
 
 data class SprUIState(
     val suplierEvent: SuplierEvent = SuplierEvent(),
