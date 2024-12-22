@@ -31,6 +31,12 @@ class UpdateBrgViewModel(
         }
     }
 
+    fun updateState(barangEvent: BarangEvent){
+        updateUIState = updateUIState.copy(
+            barangEvent = barangEvent,
+        )
+    }
+
 
 fun Barang.toUIStateBrg(): BrgUIState = BrgUIState(
     barangEvent = this.toDetailUiEvent(),
