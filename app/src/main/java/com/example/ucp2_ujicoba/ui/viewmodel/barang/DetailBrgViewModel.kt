@@ -17,6 +17,49 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
+class DetailBrgViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val repositoryBrg: RepositoryBrg,
+) : ViewModel() {
+    private val _id: String = checkNotNull(savedStateHandle[DestinasiDetailBrg.ID])
+
+    val detailUiState: StateFlow<DetailUIState> = repositoryBrg.getBrg(_id)
+        .filterNotNull()
+        .map {
+            DetailUIState(
+                detailUiEvent = it.toDetailUiEvent(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DetailUIState(isLoading = true))
+            delay(600)
+        }
+        .catch {
+            emit(
+                DetailUIState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message ?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(2000),
+            initialValue = DetailUIState(
+                isLoading = true,
+            )
+        )
+
+    fun deleteBrg() {
+        detailUiState.value.detailUiEvent.toBarangEntity().let {
+            viewModelScope.launch {
+                repositoryBrg.deleteBrg(it)
+            }
+        }
+    }
+}
 
 data class DetailUIState(
     val detailUiEvent: BarangEvent = BarangEvent(),
