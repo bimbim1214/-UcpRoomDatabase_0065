@@ -29,6 +29,57 @@ import kotlinx.coroutines.launch
 
 
 
+@Composable
+fun InsertSprView( // untuk menampilkan form input barang dengan snackbar
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SuplierViewModel = viewModel(factory = PenyediaViewModel.Factory) // Inisialisasi viewModel
+){
+    val uiState = viewModel.uiState // ambil UI state dari viewModel
+    val snackbarHostState = remember { SnackbarHostState() } // Snackbar state
+    val coroutineScope = rememberCoroutineScope()
+
+    // Observasi perubahan snackbarMessage
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message) // Tampilkan Snackbar
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ){ padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            AppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Suplier",
+                modifier = modifier
+            )
+            // Isi Body
+            InsertBodySpr(
+                uiState = uiState,
+                onValueChange = { updatedEvent ->
+                    viewModel.updateState(updatedEvent) // update state di ViewModel
+                },
+                onClick = {
+                    viewModel.saveDataSpr()
+                    onNavigate()
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun InsertBodySpr( // Menambahkan tampilan form untuk memasukkan data barang dan button simpan.
