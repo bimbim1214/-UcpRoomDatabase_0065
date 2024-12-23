@@ -37,6 +37,30 @@ import com.example.ucp2_ujicoba.ui.viewmodel.suplier.DetailUiState
 import com.example.ucp2_ujicoba.ui.viewmodel.suplier.toSuplierEntity
 
 
+@Composable
+fun DetailSprView(
+    modifier: Modifier = Modifier,
+    viewModel: DetailSprViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onBack: () -> Unit = { },
+){
+    Scaffold(
+        topBar = {
+            HeaderWithAppBar(
+                judulAppBar = " Detail Suplier",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        },
+    ) {innerPadding ->
+        val detailUiState by viewModel.detailUiState.collectAsState()
+
+        BodyDetailSpr(
+            modifier = Modifier.padding(innerPadding),
+            detailUiState = detailUiState,
+        )
+    }
+}
 
 @Composable
 fun BodyDetailSpr(
