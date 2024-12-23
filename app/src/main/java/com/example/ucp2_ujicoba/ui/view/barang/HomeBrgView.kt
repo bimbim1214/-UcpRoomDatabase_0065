@@ -50,6 +50,58 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+fun BodyHomeBrgView(
+    homeUIState: HomeUIStateBrg,
+    onClick: (String) -> Unit = { },
+    modifier: Modifier = Modifier
+){
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember {SnackbarHostState()}
+    when{
+        homeUIState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        homeUIState.isError -> {
+            LaunchedEffect(homeUIState.errorMessage) {
+                homeUIState.errorMessage?.let{mesdage ->
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(mesdage)
+                    }
+                }
+            }
+        }
+        homeUIState.listBrg.isEmpty() -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "Tidak ada data barang.",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+        else -> {
+            ListBarang(
+                listBrg = homeUIState.listBrg,
+                onClick = {
+                    onClick(it)
+                    println(it)
+                },
+                modifier = modifier
+            )
+        }
+    }
+}
+
+@Composable
 fun ListBarang(
     listBrg: List<Barang>,
     modifier: Modifier = Modifier,
