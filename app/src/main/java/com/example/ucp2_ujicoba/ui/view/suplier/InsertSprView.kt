@@ -31,6 +31,33 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+fun InsertBodySpr( // Menambahkan tampilan form untuk memasukkan data barang dan button simpan.
+    modifier: Modifier = Modifier,
+    onValueChange: (SuplierEvent) -> Unit,
+    uiState: SprUIState,
+    onClick: () -> Unit
+) {
+    Column (
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FormSuplier(
+            suplierEvent = uiState.suplierEvent,
+            onValueChange = onValueChange,
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Simpan")
+        }
+    }
+}
+
+@Composable
 fun FormSuplier(
     suplierEvent: SuplierEvent = SuplierEvent(),
     onValueChange: (SuplierEvent) -> Unit = {},
