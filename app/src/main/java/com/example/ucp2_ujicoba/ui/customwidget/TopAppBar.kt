@@ -31,6 +31,30 @@ import androidx.compose.ui.unit.sp
 import com.example.ucp2_ujicoba.R
 
 
+@Composable
+fun HeaderWithAppBar(
+    judulAppBar: String,
+    onBack: () -> Unit,
+    showBackButton: Boolean = true,
+    namaUser: String = "Bimo Aditya Pangestu",
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Section Header
+        SectionHeader(namaUser = namaUser)
+
+        // App Bar
+        AppBar(
+            onBack = onBack,
+            showBackButton = showBackButton,
+            judul = judulAppBar,
+            modifier = Modifier
+        )
+    }
+}
 
 @Composable
 fun SectionHeader(namaUser: String) {
