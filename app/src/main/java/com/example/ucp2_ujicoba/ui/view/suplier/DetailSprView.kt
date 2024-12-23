@@ -39,6 +39,37 @@ import com.example.ucp2_ujicoba.ui.viewmodel.suplier.toSuplierEntity
 
 
 @Composable
+fun ItemDetailSpr(
+    modifier: Modifier = Modifier,
+    suplier: Suplier
+){
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            ComponentDetailSpr(judul = "ID", isinya = suplier.id)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailSpr(judul = "NAMA", isinya = suplier.nama)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailSpr(judul = "ALAMAT", isinya = suplier.alamat)
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            ComponentDetailSpr(judul = "KONTAK", isinya = suplier.kontak)
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
+    }
+}
+
+
+@Composable
 fun ComponentDetailSpr(
     modifier: Modifier = Modifier,
     judul: String,
