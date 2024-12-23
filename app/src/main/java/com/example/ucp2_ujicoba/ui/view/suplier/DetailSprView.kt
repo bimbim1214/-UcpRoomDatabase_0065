@@ -39,6 +39,66 @@ import com.example.ucp2_ujicoba.ui.viewmodel.suplier.toSuplierEntity
 
 
 @Composable
+fun BodyDetailSpr(
+    modifier: Modifier = Modifier,
+    detailUiState: DetailUiState = DetailUiState(),
+    onDeleteClick: () -> Unit = { }
+){
+    var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false)}
+    when{
+        detailUiState.isLoading -> {
+            Box (
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        detailUiState.isUieventEmpty -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                ItemDetailSpr(
+                    suplier = detailUiState.detailUiEvent.toSuplierEntity(),
+                    modifier = Modifier
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(onClick = {
+                    deleteConfirmationRequired = true
+                },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Delete")
+                }
+                if (deleteConfirmationRequired) {
+                    DeleteConfirmationDialog(
+                        onDeleteConfirm = {
+                            deleteConfirmationRequired = false
+                            onDeleteClick()
+                        },
+                        onDeleteCencel = { deleteConfirmationRequired = false},
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+        }
+        detailUiState.isUieventEmpty -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Data tidak ditemukan",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun ItemDetailSpr(
     modifier: Modifier = Modifier,
     suplier: Suplier
