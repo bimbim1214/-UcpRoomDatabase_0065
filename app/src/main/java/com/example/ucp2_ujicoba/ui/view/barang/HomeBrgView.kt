@@ -48,6 +48,45 @@ import com.example.ucp2_ujicoba.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 
+@Composable
+fun HomeBrgView(
+    viewModel: HomeBrgViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onAddBrg: () -> Unit = { },
+    onDetailClick: (String) -> Unit = { },
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
+){
+    Scaffold(
+        topBar = {
+            AppBar(
+                judul = "Daftar Barang",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddBrg,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Barang",
+                )
+            }
+        }
+    ) {innerPadding ->
+        val homeUIState by viewModel.homeUIState.collectAsState()
+
+        BodyHomeBrgView(
+            homeUIState = homeUIState,
+            onClick = {onDetailClick(it)},
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
 
 @Composable
 fun BodyHomeBrgView(
