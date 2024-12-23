@@ -33,6 +33,61 @@ import com.example.ucp2_ujicoba.R
 
 
 @Composable
+fun SectionHeader(namaUser: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.Blue, RoundedCornerShape(bottomEnd = 50.dp))
+    ) {
+        Box {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Icon(
+                    Icons.Filled.List,
+                    contentDescription = "Menu",
+                    Modifier.padding(end = 16.dp),
+                    tint = Color.White
+                )
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(Modifier.padding(20.dp))
+                Text(
+                    text = "Halo,",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(Modifier.padding(4.dp))
+                Text(
+                    text = namaUser,
+                    color = Color.White
+                )
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.iop),
+                    contentDescription = "Profile Picture",
+                    Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(50.dp))
+                        .shadow(10.dp, RoundedCornerShape(50.dp))
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun AppBar(
     onBack: () -> Unit,
     showBackButton: Boolean = true,
